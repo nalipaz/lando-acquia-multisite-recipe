@@ -1,0 +1,57 @@
+recipe: drupal7
+name: projectname
+compose:
+  - lando/compose.yml
+config:
+  webroot: docroot
+  php: 5.6
+  database: mysql:5.7
+  conf:
+    php: lando/php/php.ini
+    appserver:
+proxy:
+  appserver:
+    - site1.lndo.site
+    - site2.lndo.site
+    - site3.lndo.site
+  edge:
+    - edge.acquia.lndo.site
+services:
+  cache:
+    type: memcached:1.4
+  edge:
+    type: varnish:4.1
+    backends:
+      - appserver
+    ssl: true
+  site1_db:
+    type: mysql:5.7
+    config:
+      confd: lando/mysql/conf.d
+  site2_db:
+    type: mysql:5.7
+    config:
+      confd: lando/mysql/conf.d
+  site3_db:
+    type: mysql:5.7
+    config:
+      confd: lando/mysql/conf.d
+  appserver:
+    ssl: true
+    build:
+      - |
+         cd /app/
+         composer install
+         cp -rf /app/lando/drush/.drush /var/www/
+         cd /tmp
+         cp /app/acquiacloud.tar.gz ./
+         tar -zxf acquiacloud.tar.gz
+         mv .acquia /var/www/
+         mv .drush/cloudapi.acquia.com.pem /var/www/.drush/
+         printf "$(cat /app/lando/drush/custom-aliases.txt)" >> .drush/custom-aliases.aliases.drushrc.php
+         mv .drush/custom-aliases.aliases.drushrc.php /var/www/.drush/site-aliases/
+    overrides:
+      services:
+        environment:
+          AH_SITE_ENVIRONMENT: lando
+          AH_NON_PRODUCTION: 1
