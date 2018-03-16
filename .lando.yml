@@ -43,13 +43,6 @@ services:
          cd /app/
          composer install
          cp -rf /app/lando/drush/.drush /var/www/
-         cd /tmp
-         cp /app/acquiacloud.tar.gz ./
-         tar -zxf acquiacloud.tar.gz
-         mv .acquia /var/www/
-         mv .drush/cloudapi.acquia.com.pem /var/www/.drush/
-         printf "$(cat /app/lando/drush/custom.aliases.txt)" >> .drush/custom.aliases.drushrc.php
-         mv .drush/custom-aliases.aliases.drushrc.php /var/www/.drush/site-aliases/
     overrides:
       services:
         environment:
