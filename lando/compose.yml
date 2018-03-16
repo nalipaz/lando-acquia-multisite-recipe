@@ -1,0 +1,7 @@
+version: 3
+services:
+  web:
+    image: httpd
+    ports:
+      - "80"
+      - "8085:80"
