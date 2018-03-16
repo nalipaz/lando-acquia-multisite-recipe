@@ -48,7 +48,7 @@ services:
          tar -zxf acquiacloud.tar.gz
          mv .acquia /var/www/
          mv .drush/cloudapi.acquia.com.pem /var/www/.drush/
-         printf "$(cat /app/lando/drush/custom-aliases.txt)" >> .drush/custom-aliases.aliases.drushrc.php
+         printf "$(cat /app/lando/drush/custom.aliases.txt)" >> .drush/custom.aliases.drushrc.php
          mv .drush/custom-aliases.aliases.drushrc.php /var/www/.drush/site-aliases/
     overrides:
       services:
