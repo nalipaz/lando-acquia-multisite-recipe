@@ -1,0 +1,17 @@
+$directories = array(
+  'site1.com',
+  'site2.com',
+  'site3.com',
+);
+$environments = array('prod', 'test', 'dev', 'proto', 'proto2');
+
+foreach ($directories as $dir) {
+  $domain = str_replace('www.', '', $dir);
+  $alias = str_replace('.com', '', $domain);
+  foreach ($environments as $env) {
+    $aliases[$env . '.' . $alias] = array(
+      'parent' => '@projectname.' . $env,
+      'uri' => $env . '.' . $domain,
+    );
+  }
+}
