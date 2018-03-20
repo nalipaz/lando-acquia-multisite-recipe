@@ -1,14 +1,9 @@
-<?php
+#!/usr/bin/env bash
 
-// All your normal settings stuff.
+# Ascertain our appname from one of the prod aliases.
+appname=$(drush sa|grep -Po '@[a-z]+.prod$'|sed -E 's/@([a-z]+).prod/\1/')
 
-// ... followed by ...
-
-// Include environment specific settings files if they exist.
-if (key_exists('AH_SITE_ENVIRONMENT', $_ENV)) {
-  $environment_settings = $site_directory . '/settings.' . $_ENV['AH_SITE_ENVIRONMENT'] . '.php';
-  
-  if (file_exists($environment_settings)) {
-    include $environment_settings;
-  }
-}
+for site in $(drush sa|grep -Po '@[a-z]+[^.]$'|grep -v '@none'|grep -v '@'${appname}|grep -Po '[a-z]+'); do
+  echo "[${site}] Synchronizing SQL from ${1} to lando..."
+  drush sql-sync @${appname}.${1}.${site} @${site} -y
+done
