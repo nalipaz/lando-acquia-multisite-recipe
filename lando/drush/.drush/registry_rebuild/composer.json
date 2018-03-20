@@ -1,0 +1,7 @@
+{
+  "name": "omega8cc/drush-registry-rebuild",
+  "description": "Provides the Drush Registry Rebuild extension.",
+  "type": "drupal-drush",
+  "license": "GPL-2.0+",
+  "require": {}
+}
