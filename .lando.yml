@@ -43,6 +43,12 @@ services:
          cd /app/
          composer install
          cp -rf /app/lando/drush/.drush /var/www/
+         cd /tmp
+         cp /app/acquiacloud.tar.gz ./
+         tar -zxf acquiacloud.tar.gz
+         mv .acquia /var/www/
+         mv .drush/cloudapi.acquia.com.pem /var/www/.drush/
+      - /app/lando/tooling/sql-sync-all.sh prod
     overrides:
       services:
         environment:
