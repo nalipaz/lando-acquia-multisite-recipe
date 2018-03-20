@@ -48,3 +48,8 @@ services:
         environment:
           AH_SITE_ENVIRONMENT: lando
           AH_NON_PRODUCTION: 1
+tooling:
+  'sql-sync-all <environment>':
+    service: appserver
+    description: Synchronize SQL on all sites, from a specific environment (prod, test, dev, proto)
+    cmd: /app/lando/tooling/sql-sync-all.sh
