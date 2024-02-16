@@ -34,3 +34,4 @@ Below is a list of all the files included in this repo, files within the tree be
         └── self.site.ymlᵃᵉ
 ```
 
+One gotcha that should be noted. The `acquia-pull.sh` fork in this repo does not account for a `default` site when running database pulls. This was for simplicity when dealing with a multisite. If you have a `default` site/database you should move it to a name that matches throughout your application, database/sub-directory/drush-alias.
