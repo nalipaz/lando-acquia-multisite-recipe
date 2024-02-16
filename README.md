@@ -1,11 +1,36 @@
-# lando-acquia-multisite-recipe
-A recipe for Lando to replicate an Acquia site
+Lando Acquia Recipe with Multisite Support
+==========================================
 
-To make sql synchronization between upstream and your lando installation you need to add your credentials from the Acquia servers.
+This recipe with the included files can be used to create a multisite lando installation that supports the `lando pull` command.
 
- 1. Download your Drush credentials and aliases via Acquia cloud.
-     1. [Login](https://accounts.acquia.com/user) to Acquia Cloud
-     1. Click on your name in the upper right menu
-     1. Click on the *profile* link
-     1. Click on the *Credentials* tab
-     1. Under the heading *Drush Integration* save the tarball linked under the *Download Drush aliases* link and save the tarball into the git project root. It should be named `acquiacloud.tar.gz`.
+Below is a list of all the files included in this repo, files within the tree below are marked as how they need to be added to your project.
+
+|   | How to add to project            |
+| - | -------------------------------- |
+| ᵃ | Add to project                   |
+| ᵉ | Edit file                        |
+| ᵐ | Merge changes into existing file |
+| ⁱ | Ignore file                      |
+
+```
+├── .landoᵃ
+│   ├── acquia-pull.shᵃ
+│   ├── database-generation.shᵃ
+│   └── multisite.envᵃᵉ
+├── .lando.ymlᵃᵐ
+├── README.mdⁱ
+├── docroot
+│   └── sites
+│       ├── site1
+│       │   ├── settings.lando.phpᵃᵉ
+│       │   └── settings.phpᵐ
+│       ├── site2
+│       │   ├── settings.lando.phpᵃᵉ
+│       │   └── settings.phpᵐ
+│       ├── sites.lando.phpᵃᵉ
+│       └── sites.phpᵐ
+└── drush
+    └── sites
+        └── self.site.ymlᵃᵉ
+```
+

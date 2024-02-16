@@ -1,61 +1,42 @@
-recipe: drupal7
-name: projectname
-compose:
-  - lando/compose.yml
-config:
-  webroot: docroot
-  php: 5.6
-  database: mysql:5.7
-  conf:
-    php: lando/php/php.ini
-    appserver:
+name: multisiteacquiaapp
+recipe: acquia
+services:
+  database:
+    run:
+      - /app/.lando/database-generation.sh
+
+env_file:
+  - .lando/multisite.env
+
 proxy:
   appserver:
     - site1.lndo.site
     - site2.lndo.site
-    - site3.lndo.site
-  edge:
-    - edge.acquia.lndo.site
-services:
-  cache:
-    type: memcached:1.4
-  edge:
-    type: varnish:4.1
-    backends:
-      - appserver
-    ssl: true
-  site1_db:
-    type: mysql:5.7
-    config:
-      confd: lando/mysql/conf.d
-  site2_db:
-    type: mysql:5.7
-    config:
-      confd: lando/mysql/conf.d
-  site3_db:
-    type: mysql:5.7
-    config:
-      confd: lando/mysql/conf.d
-  appserver:
-    ssl: true
-    build:
-      - |
-         cd /app/
-         composer install
-         cp -rf /app/lando/drush/.drush /var/www/
-         cd /tmp
-         cp /app/acquiacloud.tar.gz ./
-         tar -zxf acquiacloud.tar.gz
-         mv .acquia /var/www/
-         mv .drush/cloudapi.acquia.com.pem /var/www/.drush/
-      - /app/lando/tooling/sql-sync-all.sh prod
-    overrides:
-      services:
-        environment:
-          AH_SITE_ENVIRONMENT: lando
-          AH_NON_PRODUCTION: 1
+
 tooling:
-  'sql-sync-all <environment>':
-    service: appserver
-    description: Synchronize SQL on all sites, from a specific environment (prod, test, dev, proto)
-    cmd: /app/lando/tooling/sql-sync-all.sh
+  pull:
+    cmd: /app/.lando/acquia-pull.sh
+    options:
+      site:
+        passthrough: true
+        alias:
+          - s
+        describe: The namespace of the site from which you wish to pull?
+        interactive:
+          type: list
+          message: What is the namespace of the site from which you wish to pull?
+          default: all
+          choices:
+            - all
+            - site1
+            - site2
+          weight: 600
+  push: disabled
+
+config:
+  webroot: docroot
+  acli_version: latest
+  ah_application_uuid: someuuid
+  ah_site_group: multisiteacquiaapp
+  php: '8.1'
+

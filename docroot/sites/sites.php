@@ -1,10 +1,29 @@
 <?php
 
-$lando_sites_file = dirname(__FILE__) . "/sites.lando.php";
-if (file_exists($lando_sites_file)) {
-  include $lando_sites_file;
+// phpcs:ignoreFile
+
+$sites = [
+  // Site1
+  'site1.com' => 'site1',
+  'www.site1.com' => 'site1',
+  'dev.site1.com' => 'site1',
+  'stg.site1.com' => 'site1',
+  'prd.site1.com' => 'site1',
+
+  // Site2
+  'site2.com' => 'site2',
+  'www.site2.com' => 'site2',
+  'dev.site2.com' => 'site2',
+  'stg.site2.com' => 'site2',
+  'prd.site2.com' => 'site2',
+];
+
+/**
+ * Lando support.
+ */
+if (getenv('LANDO') === 'ON') {
+  if (file_exists($app_root . '/sites/sites.lando.php')) {
+    include $app_root . '/sites/sites.lando.php';
+  }
 }
-$local_sites_file = dirname(__FILE__) . "/sites.local.php";
-if (file_exists($local_sites_file)) {
-  include $local_sites_file;
-}
+
